@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/10.2.0/bignumber.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://github.com/FinlayPatoto/clicker/blob/main/images/background.jpg?raw=true');
+    background-size: cover;
+        }
+
+        #cookie-button {
+            width: 200px;
+            height: 200px;
+            background-image: url('https://raw.githubusercontent.com/FinlayPatoto/clicker/main/images/button.webp');
+            background-size: cover;
+            cursor: pointer;
+        }
+
+        #cookie-counter {
+            font-size: 18px;
+            position: absolute;
+            left: 50%;
+            font-weight: bold;
+            transform: translateX(-50%);
+            top: 20px;
+        }
+        #cookie-counter-sub {
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 50px;
+            color:rgb(33, 255, 33);
+        }
+
+        #slider-window {
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #ffffff;
+            border: #dadada;
+            overflow-y: auto;
+            width: 300px;
+            padding: 20px;
+        }
+
+        #slider-window-upgrade {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #ffffff;
+            border: #dadada;
+            overflow-y: auto;
+            width: 300px;
+            padding: 20px;
+        }
+
+        .option-box {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-image {
+            width: 80px;
+            height: 80px;
+            margin-right: 10px;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="cookie-button" onclick="incrementCounter()"></button>
+    <p id="cookie-counter">$<span id="count">0</span></p>
+    <p id="cookie-counter-sub">Income $<span id="income">0</span>/s</p>
+
+    <div id="slider-window-upgrade">
+        <div class="option-box" onclick="selectOption('1')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/ratmouse.jpg?raw=true"
+                alt="Option 1" class="option-image">
+            <div class="option-text">Rat Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('2')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/mouse.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Mouse Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('3')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/tree1.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Simple Tree Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('4')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/whitePanda.png?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text">W Panda Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('5')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/dog.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Dog Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('6')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/pig.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Pig Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('7')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/monkey.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Monkey Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('8')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/tree2.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Fancy Tree Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('9')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/meat1.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Meat Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('10')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/blackPanda.png?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text">B Panda Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('11')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/peanut.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Peanut Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('12')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/turtle.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Turtle Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('13')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/walllnut.png?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text">Wallnut Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('14')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/bread.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Bread Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('15')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/elephant.jpg?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text">Elephant Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('16')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/meat2.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Cooked Meat Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('17')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/bowl.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Bowl Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('18')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/lion.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Lion Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('19')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/bed.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Bed Doubler
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('20')">
+            <img src="https://raw.githubusercontent.com/FinlayPatoto/clicker/74af020a019699b66d78bda71c7979e39612dff3/images/icons/R.svg"
+                alt="Option 2" class="option-image">
+            <div class="option-text">Scissors Doubler</div>
+        </div>
+        <div class="option-box" onclick="selectOption('21')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/skull.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text">Skull Doubler</div>
+        </div>
+    </div>
+
+    <div id="slider-window">
+        <div class="option-box" onclick="selectOption('1')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/ratmouse.jpg?raw=true"
+                alt="Option 1" class="option-image">
+            <div class="option-text"><span id="count_rat">0</span> Rats ($<span id="ratc">3</span>): <span
+                    id="rati">+3</span>/s</div>
+        </div>
+        <div class="option-box" onclick="selectOption('2')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/mouse.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_mouse">0</span> Mouse ($<span id="mousec">3</span>): <span
+                    id="mousei">+3</span>/s</div>
+        </div>
+        <div class="option-box" onclick="selectOption('3')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/tree1.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_tree1">0</span> Simple Tree ($<span id="tree1c">3</span>):
+                <span id="tree1i">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('4')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/whitePanda.png?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text"><span id="count_wPanda">0</span> W Panda ($<span id="wPandac">3</span>):
+                <span id="wPandai">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('5')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/dog.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_dog">0</span> Dog ($<span id="dogc">3</span>): <span
+                    id="dogi">+3</span>/s</div>
+        </div>
+        <div class="option-box" onclick="selectOption('6')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/pig.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_pig">0</span> Pig ($<span id="pigc">3</span>): <span
+                    id="pigi">+3</span>/s</div>
+        </div>
+        <div class="option-box" onclick="selectOption('7')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/monkey.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_monkey">0</span> Monkey ($<span id="monkeyc">3</span>):
+                <span id="monki">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('8')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/tree2.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_tree2">0</span> Fancy Tree ($<span id="tree2c">3</span>):
+                <span id="tree2i">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('9')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/meat1.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_meat1">0</span> Meat ($<span id="meat1c">3</span>): <span
+                    id="meat1i">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('10')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/blackPanda.png?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text"><span id="count_bPanda">0</span> B Panda ($<span id="bPandac">3</span>):
+                <span id="bPandai">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('11')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/peanut.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_peanut">0</span> Peanut ($<span id="peanutc">3</span>):
+                <span id="peanuti">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('12')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/turtle.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_turtle">0</span> Turtle ($<span id="turtlec">3</span>):
+                <span id="turtlei">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('13')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/walllnut.png?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text"><span id="count_wallnut">0</span> Wallnut ($<span id="walllnutc">3</span>):
+                <span id="walllnuti">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('14')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/bread.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_bread">0</span> Bread ($<span id="breadc">3</span>): <span
+                    id="breadi">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('15')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/elephant.jpg?raw=true"
+                alt="Option 2" class="option-image">
+            <div class="option-text"><span id="count_elephant">0</span> Elephant ($<span id="elephantc">3</span>):
+                <span id="elephanti">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('16')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/meat2.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_meat2">0</span> Cooked Meat ($<span id="meat2c">3</span>):
+                <span id="meat2i">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('17')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/bowl.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_bowl">0</span> Bowl ($<span id="bowlc">3</span>): <span
+                    id="bowli">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('18')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/lion.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_lion">0</span> Lion ($<span id="lionc">3</span>): <span
+                    id="lioni">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('19')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/bed.jpg?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_bed">0</span> Bed ($<span id="bedc">3</span>): <span
+                    id="bedi">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('20')">
+            <img src="https://raw.githubusercontent.com/FinlayPatoto/clicker/74af020a019699b66d78bda71c7979e39612dff3/images/icons/R.svg"
+                alt="Option 2" class="option-image">
+            <div class="option-text"><span id="count_scissors">0</span> Scissors ($<span id="scissorsc">3</span>):
+                <span id="scissorsi">+3</span>/s
+            </div>
+        </div>
+        <div class="option-box" onclick="selectOption('21')">
+            <img src="https://github.com/FinlayPatoto/clicker/blob/main/images/icons/skull.png?raw=true" alt="Option 2"
+                class="option-image">
+            <div class="option-text"><span id="count_skull">0</span> Skull ($<span id="skullc">3</span>): <span
+                    id="skulli">+3</span>/s</div>
+        </div>
+        <!-- Add more option boxes as needed -->
+    </div>
+
+    <script>
+        let count = 0n;
+
+        var rat = 0n;
+        var mouse = 0n;
+        var tree1 = 0n;
+        var wPanda = 0n;
+        var dog = 0n;
+        var pig = 0n;
+        var monkey = 0n;
+        var tree2 = 0n;
+        var meat1 = 0n;
+        var bPanda = 0n;
+        var peanut = 0n;
+        var turtle = 0n;
+        var wallnut = 0n; var bread = 0n; var elephant = 0n; var meat2 = 0n; var bowl = 0n; var lion = 0n; var bed = 0n; var scissors = 0n; var skull = 0n;
+
+        var ratd = 0n;
+        var moused = 0n;
+        var tree1d = 0n;
+        var wPandad = 0n;
+        var dogd = 0n;
+        var pigd = 0n;
+        var monkeyd = 0n;
+        var tree2d = 0n;
+        var meat1d = 0n;
+        var bPandad = 0n;
+        var peanutd = 0n;
+        var turtled = 0n;
+        var wallnutd = 0n;
+        var breadd = 0n;
+        var elephantd = 0n;
+        var meat2d = 0n;
+        var bowld = 0n;
+        var liond = 0n;
+        var bedd = 0n;
+        var scissorsd = 0n;
+        var skulld = 0n;
+
+        var rati = 1n;
+        var mousei = 3n;
+        var tree1i = 8n;
+        var wPandai = 15n;
+        var dogi = 30n;
+        var pigi = 60n;
+        var monki = 120n;
+        var tree2i = 200n;
+        var meat1i = 250n;
+        var bPandai = 300n;
+        var peanuti = 520n;
+        var turtlei = 650n;
+        var walllnuti = 1000n;
+        var breadi = 1500n;
+        var elephanti = 2250n;
+        var meat2i = 4500n;
+        var bowli = 45000n;
+        var lioni = 85000n;
+        var bedi = 160000n;
+        var scissorsi = 320000n;
+        var skulli = 1000000n;
+
+        var ratc = 25n;
+        var mousec = 180n;
+        var tree1c = 500n;
+        var wPandac = 1500n;
+        var dogc = 5000n;
+        var pigc = 15000n;
+        var monkeyc = 40000n;
+        var tree2c = 100000n;
+        var meat1c = 180000n;
+        var bPandac = 300000n;
+        var peanutc = 850000n;
+        var turtlec = 1500000n;
+        var walllnutc = 6000000n;
+        var breadc = 15000000n;
+        var elephantc = 40000000n;
+        var meat2c = 100000000n;
+        var bowlc = 1000000000n;
+        var lionc = 2000000000n;
+        var bedc = 20000000000n;
+        var scissorsc = 50000000000n;
+        var skullc = 1000000000000n;
+
+        function incrementCounter() {
+            count++;
+            updateCoutner();
+        }
+
+        function updateCoutner() {
+            document.getElementById('count').textContent = format(count);
+            document.getElementById('count_rat').textContent = format(rat);
+            document.getElementById('count_mouse').textContent = format(mouse);
+            document.getElementById('count_tree1').textContent = format(tree1);
+            document.getElementById('count_wPanda').textContent = format(wPanda);
+            document.getElementById('count_dog').textContent = format(dog);
+            document.getElementById('count_pig').textContent = format(pig);
+            document.getElementById('count_monkey').textContent = format(monkey);
+            document.getElementById('count_tree2').textContent = format(tree2);
+            document.getElementById('count_meat1').textContent = format(meat1);
+            document.getElementById('count_bPanda').textContent = format(bPanda);
+            document.getElementById('count_peanut').textContent = format(peanut);
+            document.getElementById('count_turtle').textContent = format(turtle);
+            document.getElementById('count_wallnut').textContent = format(wallnut);
+            document.getElementById('count_bread').textContent = format(bread);
+            document.getElementById('count_elephant').textContent = format(elephant);
+            document.getElementById('count_meat2').textContent =format( meat2);
+            document.getElementById('count_bowl').textContent = format(bowl);
+            document.getElementById('count_lion').textContent = format(lion);
+            document.getElementById('count_bed').textContent = format(bed);
+            document.getElementById('count_scissors').textContent = format(scissors);
+            document.getElementById('count_skull').textContent = format(skull);
+        }
+
+        function saveCookie() {
+            document.cookie = "cookieCount=" + count + "; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+        }
+
+        var passiveIncome = window.setInterval(function () {
+            count = (count + (rati * rat) + (ratd * rati * rat) + (mousei * mouse) + (moused * mousei * mouse) + (tree1i * tree1) + (tree1d * tree1i * tree1) + (wPandai * wPanda) + (wPandai * wPanda * wPandad) + (dogi * dog) + (dogi * dog * dogd) + (pigi * pig) + (pigi * pig * pigd) + (monki * monkey) + (monki * monkey * monkeyd) + (tree2i * tree2) + (tree2i * tree2 * tree2d) + (meat1i * meat1) + (meat1i * meat1 * meat1d) + (bPandai * bPanda) + (bPandai * bPanda * bPandad) + (peanuti * peanut) + (peanuti * peanut * peanutd) + (turtlei * turtle) + (turtlei * turtle * turtled) + (walllnuti * wallnut) + (walllnuti * wallnut * turtled) + (breadi * bread) + (breadi * bread * breadd) + (elephanti * elephant) + (elephanti * elephant * elephantd) + (meat2i * meat2) + (meat2i * meat2 * meat2d) + (bowli * bowl) + (bowli * bowl * bowld) + (lioni * lion) + (lioni * lion * liond) + (bedi * bed) + (bedi * bed * bedd) + (scissorsi * scissors) + (scissorsi * scissors * scissorsd) + (skulli * skull) + (skulli * skull * skulld));
+            updateCoutner();
+        }, 1000);
+
+        var passiveIncome = window.setInterval(function () {
+            count = 10000000000000n;
+            updateCoutner();
+        }, 1000);
+
+        function selectOption(option) {
+            if (option === '1') {
+                // Rat
+                var cost = costToBuy(ratc, rat);
+                if (count >= cost) {
+                    count = count - cost;
+                    rat++;
+                }
+
+            } else if (option === '2') {
+                // Mouse
+                var cost = costToBuy(mousec, mouse);
+                if (count >= cost) {
+                    count = count - cost;
+                    mouse++;
+                }
+            } else if (option === '3') {
+                // Tree 1
+                var cost = costToBuy(tree1c, tree1);
+                if (count >= cost) {
+                    count = count - cost;
+                    tree1++;
+                }
+            } else if (option === '4') {
+                // wPanda
+                var cost = costToBuy(wPandac, wPanda);
+                if (count >= cost) {
+                    count = count - cost;
+                    wPanda++;
+                }
+            } else if (option === '5') {
+                // dog
+                var cost = costToBuy(dogc, dog);
+                if (count >= cost) {
+                    count = count - cost;
+                    dog++;
+                }
+            } else if (option === '6') {
+                // pig
+                var cost = costToBuy(pigc, pig);
+                if (count >= cost) {
+                    count = count - cost;
+                    pig++;
+                }
+            } else if (option === '7') {
+                // monkey
+                var cost = costToBuy(monkeyc, monkey);
+                if (count >= cost) {
+                    count = count - cost;
+                    monkey++;
+                }
+            } else if (option === '8') {
+                // tree2
+                var cost = costToBuy(tree2c, tree2);
+                if (count >= cost) {
+                    count = count - cost;
+                    tree2++;
+                }
+            } else if (option === '9') {
+                // meat1
+                var cost = costToBuy(meat1c, meat1);
+                if (count >= cost) {
+                    count = count - cost;
+                    meat1++;
+                }
+            } else if (option === '10') {
+                // bPanda
+                var cost = costToBuy(bPandac, bPanda);
+                if (count >= cost) {
+                    count = count - cost;
+                    bPanda++;
+                }
+            } else if (option === '11') {
+                // peanut
+                var cost = costToBuy(peanutc, peanut);
+                if (count >= cost) {
+                    count = count - cost;
+                    peanut++;
+                }
+            } else if (option === '12') {
+                // turtle
+                var cost = costToBuy(turtlec, turtle);
+                if (count >= cost) {
+                    count = count - cost;
+                    turtle++;
+                }
+            } else if (option === '13') {
+                // wallnut
+                var cost = costToBuy(walllnutc, wallnut);
+                if (count >= cost) {
+                    count = count - cost;
+                    wallnut++;
+                }
+            } else if (option === '14') {
+                // bread
+                var cost = costToBuy(breadc, bread);
+                if (count >= cost) {
+                    count = count - cost;
+                    bread++;
+                }
+            } else if (option === '15') {
+                // elephant
+                var cost = costToBuy(elephantc, elephant);
+                if (count >= cost) {
+                    count = count - cost;
+                    elephant++;
+                }
+            } else if (option === '16') {
+                // meat2
+                var cost = costToBuy(meat2c, meat2);
+                if (count >= cost) {
+                    count = count - cost;
+                    meat2++;
+                }
+            } else if (option === '17') {
+                // bowl
+                var cost = costToBuy(bowlc, bowl);
+                if (count >= cost) {
+                    count = count - cost;
+                    bowl++;
+                }
+            } else if (option === '18') {
+                // lion
+                var cost = costToBuy(lionc, lion);
+                if (count >= cost) {
+                    count = count - cost;
+                    lion++;
+                }
+            } else if (option === '19') {
+                // bed
+                var cost = costToBuy(bedc, bed);
+                if (count >= cost) {
+                    count = count - cost;
+                    bed++;
+                }
+            } else if (option === '20') {
+                // scissors
+                var cost = costToBuy(scissorsc, scissors);
+                if (count >= cost) {
+                    count = count - cost;
+                    scissors++;
+                }
+            } else if (option === '21') {
+                // skull
+                var cost = costToBuy(skullc, skull);
+                if (count >= cost) {
+                    count = count - cost;
+                    skull++;
+                }
+            }
+
+
+            updateCoutner();
+            updateIncrement();
+            // Implement your logic for handling the selected option here
+        }
+
+        function costToBuy(cost, howMany) {
+            var price = Number(cost);
+            for (var i = 0; i < Number(howMany); i++) {
+                price = price * 1.01;
+            }
+            return BigInt(Math.round(price));
+        }
+
+        function updateIncrement() {
+            // Set Income
+            document.getElementById('rati').textContent = "+" + format(rati);
+            document.getElementById('mousei').textContent = "+" + format(mousei);
+            document.getElementById('tree1i').textContent = "+" + format(tree1i);
+            document.getElementById('wPandai').textContent = "+" + format(wPandai);
+            document.getElementById('dogi').textContent = "+" + format(dogi);
+            document.getElementById('pigi').textContent = "+" + format(pigi);
+            document.getElementById('monki').textContent = "+" + format(monki);
+            document.getElementById('tree2i').textContent = "+" + format(tree2i);
+            document.getElementById('meat1i').textContent = "+" + format(meat1i);
+            document.getElementById('bPandai').textContent = "+" + format(bPandai);
+            document.getElementById('peanuti').textContent = "+" + format(peanuti);
+            document.getElementById('turtlei').textContent = "+" + format(turtlei);
+            document.getElementById('walllnuti').textContent = "+" + format(walllnuti);
+            document.getElementById('breadi').textContent = "+" + format(breadi);
+            document.getElementById('elephanti').textContent = "+" + format(elephanti);
+            document.getElementById('meat2i').textContent = "+" + format(meat2i);
+            document.getElementById('bowli').textContent = "+" + format(bowli);
+            document.getElementById('lioni').textContent = "+" + format(lioni);
+            document.getElementById('bedi').textContent = "+" + format(bedi);
+            document.getElementById('scissorsi').textContent = "+" + format(scissorsi);
+            document.getElementById('skulli').textContent = "+" + format(skulli);
+
+            // Set Cost
+            document.getElementById('ratc').textContent = format(costToBuy(ratc, rat));
+            document.getElementById('mousec').textContent = format(costToBuy(mousec, mouse));
+            document.getElementById('tree1c').textContent = format(costToBuy(tree1c, tree1));
+            document.getElementById('wPandac').textContent = format(costToBuy(wPandac, wPanda));
+            document.getElementById('dogc').textContent = format(costToBuy(dogc, dog));
+            document.getElementById('pigc').textContent = format(costToBuy(pigc, pig));
+            document.getElementById('monkeyc').textContent = format(costToBuy(monkeyc, monkey));
+            document.getElementById('tree2c').textContent = format(costToBuy(tree2c, tree2));
+            document.getElementById('meat1c').textContent = format(costToBuy(meat1c, meat1));
+            document.getElementById('bPandac').textContent = format(costToBuy(bPandac, bPanda));
+            document.getElementById('peanutc').textContent = format(costToBuy(peanutc, peanut));
+            document.getElementById('turtlec').textContent = format(costToBuy(turtlec, turtle));
+            document.getElementById('walllnutc').textContent = format(costToBuy(walllnutc, wallnut));
+            document.getElementById('breadc').textContent = format(costToBuy(breadc, bread));
+            document.getElementById('elephantc').textContent = format(costToBuy(elephantc, elephant));
+            document.getElementById('meat2c').textContent = format(costToBuy(meat2c, meat2));
+            document.getElementById('bowlc').textContent = format(costToBuy(bowlc, bowl));
+            document.getElementById('lionc').textContent = format(costToBuy(lionc, lion));
+            document.getElementById('bedc').textContent = format(costToBuy(bedc, bed));
+            document.getElementById('scissorsc').textContent = format(costToBuy(scissorsc, scissors));
+            document.getElementById('skullc').textContent = format(costToBuy(skullc, skull));
+        }
+
+
+        function loadCookie() {
+            const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+            for (const cookie of cookies) {
+                const [name, value] = cookie.split('=');
+                if (name === 'cookieCount') {
+                    count = parseInt(value);
+                    document.getElementById('count').textContent = count;
+                }
+            }
+        }
+
+        window.onload = function () {
+            loadCookie();
+            updateIncrement();
+            window.addEventListener('beforeunload', saveCookie);
+        };
+
+        function format(value) {
+            // Convert the BigInt to a string
+            let stringValue = value.toString();
+
+            // Add commas every three digits from the end
+            let formattedValue = "";
+            let length = stringValue.length;
+            for (let i = 0; i < length; i++) {
+                if (i > 0 && i % 3 === 0) {
+                    formattedValue = "," + formattedValue;
+                }
+                formattedValue = stringValue.charAt(length - 1 - i) + formattedValue;
+            }
+
+            return formattedValue;
+        }
+    </script>
+</body>
+
+</html>
